@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SideBar from "./components/SideBar";
 import { ConfigProvider, Layout } from "antd";
-import { Content, Header } from "antd/es/layout/layout";
+import HomeLayout from "./components/HomeLayout";
+import AuthProvider from "@/context/SessionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,26 +14,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <ConfigProvider theme={{
-        token:{
-          colorPrimary:"#FB3F6C",
-          colorBgBase:"#121212",
-          colorText:"white",
-          colorLinkActive:"white",
-          colorBgTextActive:"121212"
-        }
-      }} >
-      <body className={inter.className}>
-        <Layout>
-          <SideBar />
-          <Layout>
-            <Header className="bg-header"></Header>
-            <Content className="bg-panel">
-            {children}
-            </Content>
-          </Layout>
-        </Layout>
-      </body>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#FB3F6C",
+            colorBgBase: "#121212",
+            colorText: "white",
+            colorLinkActive: "white",
+            colorBgTextActive: "121212",
+          },
+        }}
+      >
+        <AuthProvider>
+          <body className={inter.className}>{children}</body>
+        </AuthProvider>
       </ConfigProvider>
     </html>
   );
